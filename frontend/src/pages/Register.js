@@ -18,17 +18,22 @@ function Register() {
   const registerUser = async () => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/auth/register',
+        'http://https://enterskillhub-production.up.railway.app/api/auth/register',
         user,
       );
 
       alert(res.data.message);
 
-      // Go to Login page after successful registration
       window.location.href = '/login';
     } catch (err) {
+      console.log(err.response);
+
       if (err.response) {
-        alert(err.response.data.error);
+        alert(
+          err.response.data.message ||
+            err.response.data.error ||
+            'Registration Failed',
+        );
       } else {
         alert('Network Error');
       }

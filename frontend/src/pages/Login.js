@@ -12,10 +12,13 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        'http://https://enterskillhub-production.up.railway.app/api/auth/login',
+        {
+          email,
+          password,
+        },
+      );
       console.log(res.data);
 
       // Save JWT Token

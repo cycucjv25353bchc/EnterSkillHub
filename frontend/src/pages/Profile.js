@@ -13,11 +13,14 @@ function Profile() {
     const token = localStorage.getItem('token');
 
     axios
-      .get('http://localhost:5000/api/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      .get(
+        'http://https://enterskillhub-production.up.railway.app/api/profile',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
+      )
       .then((res) => {
         setName(res.data.name || '');
         setSkills(
@@ -46,7 +49,7 @@ function Profile() {
       });
 
       const res = await axios.put(
-        'http://localhost:5000/api/profile',
+        'http://https://enterskillhub-production.up.railway.app/api/profile',
         {
           name,
           skills,

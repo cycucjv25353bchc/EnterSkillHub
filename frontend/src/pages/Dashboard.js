@@ -22,11 +22,14 @@ function Dashboard() {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await axios.get(
+        'https://enterskillhub-production.up.railway.app/api/profile',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       setUser(res.data);
     } catch (err) {
@@ -37,7 +40,9 @@ function Dashboard() {
 
   const fetchIdeas = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/ideas');
+      const res = await axios.get(
+        'http://https://enterskillhub-production.up.railway.app/api/ideas',
+      );
       setIdeas(res.data);
     } catch (err) {
       console.log(err);
@@ -51,10 +56,13 @@ function Dashboard() {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/ideas', {
-        title,
-        description,
-      });
+      await axios.post(
+        'http://https://enterskillhub-production.up.railway.app/api/ideas',
+        {
+          title,
+          description,
+        },
+      );
 
       setTitle('');
       setDescription('');
@@ -66,7 +74,9 @@ function Dashboard() {
 
   const deleteIdea = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/ideas/${id}`);
+      await axios.delete(
+        `http://https://enterskillhub-production.up.railway.app/api/ideas/${id}`,
+      );
       fetchIdeas();
     } catch (err) {
       console.log(err);
@@ -76,7 +86,7 @@ function Dashboard() {
   const searchUsers = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/search?keyword=${keyword}`,
+        `http://https://enterskillhub-production.up.railway.app/api/search?keyword=${keyword}`,
       );
       setUsers(res.data);
     } catch (err) {
