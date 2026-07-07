@@ -18,7 +18,7 @@ function Dashboard() {
   useEffect(() => {
     fetchProfile();
     fetchIdeas();
-  }, []);
+  }, [fetchProfile, fetchIdeas]);
 
   const fetchProfile = async () => {
     try {
