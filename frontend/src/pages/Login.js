@@ -13,7 +13,7 @@ function Login() {
 
     try {
       const res = await axios.post(
-        'http://https://enterskillhub-production.up.railway.app/api/auth/login',
+        'https://enterskillhub-production.up.railway.app/api/auth/login',
         {
           email,
           password,
