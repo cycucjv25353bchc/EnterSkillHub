@@ -18,7 +18,7 @@ function Dashboard() {
   useEffect(() => {
     fetchProfile();
     fetchIdeas();
-  }, [fetchProfile, fetchIdeas]);
+  }, []);
 
   const fetchProfile = async () => {
     try {
@@ -41,7 +41,7 @@ function Dashboard() {
   const fetchIdeas = async () => {
     try {
       const res = await axios.get(
-        'http://https://enterskillhub-production.up.railway.app/api/ideas',
+        'https://enterskillhub-production.up.railway.app/api/ideas',
       );
       setIdeas(res.data);
     } catch (err) {
@@ -57,7 +57,7 @@ function Dashboard() {
 
     try {
       await axios.post(
-        'http://https://enterskillhub-production.up.railway.app/api/ideas',
+        `https://enterskillhub-production.up.railway.app/api/ideas`),
         {
           title,
           description,
@@ -75,7 +75,7 @@ function Dashboard() {
   const deleteIdea = async (id) => {
     try {
       await axios.delete(
-        `http://https://enterskillhub-production.up.railway.app/api/ideas/${id}`,
+       `https://enterskillhub-production.up.railway.app/api/ideas/${id}`,
       );
       fetchIdeas();
     } catch (err) {
@@ -86,7 +86,7 @@ function Dashboard() {
   const searchUsers = async () => {
     try {
       const res = await axios.get(
-        `http://https://enterskillhub-production.up.railway.app/api/search?keyword=${keyword}`,
+        `https://enterskillhub-production.up.railway.app/api/search?keyword=${keyword}`,
       );
       setUsers(res.data);
     } catch (err) {
