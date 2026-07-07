@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,18 +9,12 @@ function Dashboard() {
   const [ideas, setIdeas] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-
   const [keyword, setKeyword] = useState('');
   const [users, setUsers] = useState([]);
 
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    fetchProfile();
-    fetchIdeas();
-  }, []);
-
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     try {
       const res = await axios.get(
         'https://enterskillhub-production.up.railway.app/api/profile',
@@ -36,18 +30,24 @@ function Dashboard() {
       localStorage.removeItem('token');
       navigate('/login');
     }
-  };
+  }, [navigate, token]);
 
-  const fetchIdeas = async () => {
+  const fetchIdeas = useCallback(async () => {
     try {
       const res = await axios.get(
         'https://enterskillhub-production.up.railway.app/api/ideas',
       );
+
       setIdeas(res.data);
     } catch (err) {
       console.log(err);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchProfile();
+    fetchIdeas();
+  }, [fetchProfile, fetchIdeas]);
 
   const addIdea = async () => {
     if (!title || !description) {
@@ -57,7 +57,7 @@ function Dashboard() {
 
     try {
       await axios.post(
-        `https://enterskillhub-production.up.railway.app/api/ideas`),
+        'https://enterskillhub-production.up.railway.app/api/ideas',
         {
           title,
           description,
@@ -75,8 +75,9 @@ function Dashboard() {
   const deleteIdea = async (id) => {
     try {
       await axios.delete(
-       `https://enterskillhub-production.up.railway.app/api/ideas/${id}`,
+        `https://enterskillhub-production.up.railway.app/api/ideas/${id}`,
       );
+
       fetchIdeas();
     } catch (err) {
       console.log(err);
@@ -88,6 +89,7 @@ function Dashboard() {
       const res = await axios.get(
         `https://enterskillhub-production.up.railway.app/api/search?keyword=${keyword}`,
       );
+
       setUsers(res.data);
     } catch (err) {
       console.log(err);
