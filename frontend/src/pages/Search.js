@@ -6,7 +6,7 @@ function Search() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/api/search')
+      .get('https://enterskillhub-production.up.railway.app/api/search')
       .then((res) => setUsers(res.data))
       .catch((err) => console.log(err));
   }, []);
