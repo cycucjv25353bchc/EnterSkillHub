@@ -2,33 +2,40 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function Register() {
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
 
   const navigate = useNavigate();
 
-  const loginUser = async (e) => {
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const registerUser = async (e) => {
     e.preventDefault();
 
     try {
       const res = await axios.post(
-        'https://enterskillhub-production.up.railway.app/api/auth/login',
+        'https://enterskillhub-production.up.railway.app/api/auth/register',
         {
-          email,
-          password,
+          name: user.name,
+          email: user.email,
+          password: user.password,
         },
       );
-      console.log(res.data);
 
-      // Save JWT Token
-      localStorage.setItem('token', res.data.token);
-
-      alert('Login Successful');
-
-      navigate('/dashboard');
+      alert(res.data.message);
+      navigate('/login');
     } catch (err) {
-      alert(err.response?.data?.message || 'Login Failed');
+      console.log(err);
+      alert(err.response?.data?.message || 'Registration Failed');
     }
   };
 
@@ -36,14 +43,26 @@ function Login() {
     <div style={{ margin: '50px' }}>
       <h1>EnterSkillHub</h1>
 
-      <h2>User Login</h2>
+      <h2>User Registration</h2>
 
-      <form onSubmit={loginUser}>
+      <form onSubmit={registerUser}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter Name"
+          value={user.name}
+          onChange={handleChange}
+        />
+
+        <br />
+        <br />
+
         <input
           type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          placeholder="Enter Email"
+          value={user.email}
+          onChange={handleChange}
         />
 
         <br />
@@ -51,18 +70,25 @@ function Login() {
 
         <input
           type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          placeholder="Enter Password"
+          value={user.password}
+          onChange={handleChange}
         />
 
         <br />
         <br />
 
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
+
+      <br />
+
+      <button onClick={() => navigate('/login')}>
+        Already have an account? Login
+      </button>
     </div>
   );
 }
 
-export default Login;
+export default Register;
